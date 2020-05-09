@@ -63,6 +63,7 @@ public class UserServiceImpl implements UserService {
 		UserModel userModel = new UserModel();
 		List<AddresseModel> addresseModelsList = new ArrayList();
 		
+		
 
 		userModel.setName(userBean.getName());
 		userModel.setEmail(userBean.getEmail());
