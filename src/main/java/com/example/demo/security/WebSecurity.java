@@ -29,7 +29,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		httpSecurity.csrf().disable().authorizeRequests()
 		.antMatchers(HttpMethod.POST , SecurityConstants.SIGN_UP_URL)
 		.permitAll()
-		
+		.antMatchers("/h2-console/**")
+        .permitAll()
 		
 		//Default URL
 		//  .anyRequest().authenticated().and().addFilter(new  AuthenticationFilter(authenticationManager()));
@@ -46,7 +47,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/console/**" , "/h2/**").permitAll().anyRequest().authenticated();
          httpSecurity.headers().frameOptions().disable();
         */ 
-       
+		httpSecurity.headers().frameOptions().disable();
 		//
 		//.anyRequest().permitAll();
 	}

@@ -1,10 +1,14 @@
 package com.example.demo.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -28,7 +32,10 @@ public class UserModel {
 
 	@Column
 	private String password;
-
+	
+	@OneToMany(mappedBy = "userModel" ,cascade =CascadeType.ALL)
+	List<AddresseModel> addresses;
+ 
 	public Long getId() {
 		return id;
 	}
@@ -60,5 +67,15 @@ public class UserModel {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public List<AddresseModel> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<AddresseModel> addresses) {
+		this.addresses = addresses;
+	}
+	
+	
 
 }

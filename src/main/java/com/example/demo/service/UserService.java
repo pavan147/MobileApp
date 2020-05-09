@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.example.demo.beans.UserBean;
+import com.example.demo.model.UserModel;
 
 public interface UserService extends UserDetailsService {
 	
@@ -15,5 +16,9 @@ public interface UserService extends UserDetailsService {
 	public UserBean getUserByUsername(String username);
 	
 	public UserBean getUserById(Long userId);
+	
+	public UserBean updateUser(UserBean userBean  , Long userID );
+	
+	public List<UserBean> getUserListPagination(int page , int limit);
 
 }
