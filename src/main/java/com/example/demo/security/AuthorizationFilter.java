@@ -13,12 +13,19 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import com.example.demo.model.UserModel;
+import com.example.demo.repo.UserRepository;
+
 import io.jsonwebtoken.Jwts;
 
 public class AuthorizationFilter extends BasicAuthenticationFilter {
+	
+	UserRepository userRepositary;
 
-	public AuthorizationFilter(AuthenticationManager authenticationManager) {
+	public AuthorizationFilter(AuthenticationManager authenticationManager , UserRepository userRepositary) {
 		super(authenticationManager);
+		
+		this.userRepositary = userRepositary;
 	}
 	
 	@Override
@@ -54,11 +61,12 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
 			
 			if(user != null) {
 				
+				UserModel userModel = userRepositary.findByEmail(user);
+				UserPrincipal userPrincipal = new UserPrincipal(userModel);
+				
 				return new UsernamePasswordAuthenticationToken("rahul@gmail.com", null , new ArrayList<>());
-			}else {
-				System.out.println("Webt wrong");
-				return null;
 			}
+			
 		}
 		return null;
 		

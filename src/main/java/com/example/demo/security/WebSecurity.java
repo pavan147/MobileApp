@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.example.demo.repo.UserRepository;
 import com.example.demo.service.UserService;
 
 @EnableWebSecurity
@@ -15,12 +16,14 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	
 	private final UserService userDetailService;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+	private final UserRepository userRepository;
 	
 	
-	public WebSecurity(UserService userDetailService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+	public WebSecurity(UserService userDetailService, BCryptPasswordEncoder bCryptPasswordEncoder ,UserRepository userRepository) {
 		 
 		this.userDetailService = userDetailService;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+		this.userRepository =userRepository;
 	}
 	
 	@Override
@@ -38,7 +41,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		//Custome Url
 		 .anyRequest().authenticated().and()
 		 .addFilter(getAuthenticationFilter())//this method created getAuthenticationFilter() same class
-		 .addFilter(new AuthorizationFilter(authenticationManager()))
+		 .addFilter(new AuthorizationFilter(authenticationManager() , userRepository))
 		 .sessionManagement()
 		 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		 

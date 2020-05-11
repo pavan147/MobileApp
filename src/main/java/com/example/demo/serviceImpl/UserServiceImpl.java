@@ -21,6 +21,7 @@ import com.example.demo.beans.UserBean;
 import com.example.demo.model.AddresseModel;
 import com.example.demo.model.UserModel;
 import com.example.demo.repo.UserRepository;
+import com.example.demo.security.UserPrincipal;
 import com.example.demo.service.UserService;
 
 import net.bytebuddy.implementation.bytecode.Throw;
@@ -100,7 +101,8 @@ public class UserServiceImpl implements UserService {
 			throw new UsernameNotFoundException(email);
 		}
 
-		return new User(userModel.getEmail(), userModel.getPassword(), new ArrayList<>());
+		//return new User(userModel.getEmail(), userModel.getPassword(), new ArrayList<>());
+		return new UserPrincipal(userModel);
 	}
 
 	@Override
@@ -117,11 +119,26 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserBean getUserById(Long userId) {
 
-		Optional<UserModel> userModel = userRepository.findById(userId);
+		UserModel userModel = userRepository.findById(userId).get();
 		UserBean userBean = new UserBean();
+		List<AddresseBean> addresseBeansList = new ArrayList();
 
-		BeanUtils.copyProperties(userModel.get(), userBean);
-		userBean.setPassword("Password");
+		userBean.setName(userModel.getName());
+		userBean.setEmail(userModel.getEmail());
+		userBean.setId(userModel.getId());
+		
+		for(AddresseModel addresseModel : userModel.getAddresses()) {
+			AddresseBean addresseBean = new AddresseBean();
+			
+			addresseBean.setAddressID(addresseModel.getAddressID());;
+			addresseBean.setCity(addresseModel.getCity());
+			addresseBean.setCountry(addresseModel.getCountry());
+			addresseBean.setStreet(addresseModel.getStreet());
+			
+			addresseBeansList.add(addresseBean);
+		}
+		userBean.setAddresses(addresseBeansList);
+		
 
 		return userBean;
 	}

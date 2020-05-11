@@ -60,7 +60,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 			                              FilterChain filterChain ,
 			                              Authentication authentication) {
 		
-		String username =  ((User)authentication.getPrincipal()).getUsername();
+		String username =  ((UserPrincipal)authentication.getPrincipal()).getUsername();
 		
 		String token = Jwts.builder()
 				.setSubject(username)
