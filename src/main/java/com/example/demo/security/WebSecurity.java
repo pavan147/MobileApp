@@ -2,6 +2,7 @@ package com.example.demo.security;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.example.demo.repo.UserRepository;
 import com.example.demo.service.UserService;
 
+@EnableGlobalMethodSecurity(securedEnabled = true , prePostEnabled = true) //Enable Method and Class level Security
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 	
@@ -32,6 +34,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		httpSecurity.csrf().disable().authorizeRequests()
 		.antMatchers(HttpMethod.POST , SecurityConstants.SIGN_UP_URL)
 		.permitAll()
+		//.antMatchers(HttpMethod.PUT , "/user/**").hasRole("ADMIN")
+		//.antMatchers(HttpMethod.PUT , "/user/**").hasAnyAuthority("DELETEe_AUTHORITY")
 		.antMatchers("/h2-console/**")
         .permitAll()
 		

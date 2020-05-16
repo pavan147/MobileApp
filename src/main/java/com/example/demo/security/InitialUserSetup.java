@@ -33,6 +33,9 @@ public class InitialUserSetup {
 	@Autowired
 	private UserRepository userRepository;
 	
+	/**
+	 * @param applicationReadyEvent
+	 */
 	@EventListener
 	@Transactional
 	public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
@@ -48,14 +51,15 @@ public class InitialUserSetup {
 		 
 		 if(roleAdmin == null) return;
 			 
-			 UserModel userModel = new UserModel();
-			 
-			 userModel.setName("Admin");
-			 userModel.setEmail("admin@gmail.com");
-			 userModel.setPassword(bCryptPasswordEncoder.encode("admin"));
-			 userModel.setRoles(Arrays.asList(roleAdmin));
-			 
-			 userRepository.save(userModel);
+		/*
+		 * UserModel userModel = new UserModel();
+		 * 
+		 * userModel.setName("Admin"); userModel.setEmail("admin@gmail.com");
+		 * userModel.setPassword(bCryptPasswordEncoder.encode("admin"));
+		 * userModel.setRoles(Arrays.asList(roleAdmin));
+		 * 
+		 * userRepository.save(userModel);
+		 */
 			 
 	}
 	

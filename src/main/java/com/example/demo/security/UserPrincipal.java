@@ -13,12 +13,22 @@ import com.example.demo.model.UserModel;
 
 public class UserPrincipal implements UserDetails {
 
-	UserModel userModel;
+	private UserModel userModel;
+	private Long userId;
 	
 	public UserPrincipal(UserModel userModel){
 		this.userModel = userModel;
+		this.userId = userModel.getId();
 	}
 	
+	public UserModel getUserModel() {
+		return userModel;
+	}
+
+	public void setUserModel(UserModel userModel) {
+		this.userModel = userModel;
+	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();

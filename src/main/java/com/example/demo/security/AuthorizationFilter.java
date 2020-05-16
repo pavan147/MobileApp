@@ -20,7 +20,7 @@ import io.jsonwebtoken.Jwts;
 
 public class AuthorizationFilter extends BasicAuthenticationFilter {
 	
-	UserRepository userRepositary;
+	private final UserRepository userRepositary;
 
 	public AuthorizationFilter(AuthenticationManager authenticationManager , UserRepository userRepositary) {
 		super(authenticationManager);
@@ -62,9 +62,12 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
 			if(user != null) {
 				
 				UserModel userModel = userRepositary.findByEmail(user);
+				
+				if(userModel == null) return null;
+					
 				UserPrincipal userPrincipal = new UserPrincipal(userModel);
 				
-				return new UsernamePasswordAuthenticationToken("rahul@gmail.com", null , new ArrayList<>());
+				return new UsernamePasswordAuthenticationToken(userPrincipal, null , userPrincipal.getAuthorities());
 			}
 			
 		}
